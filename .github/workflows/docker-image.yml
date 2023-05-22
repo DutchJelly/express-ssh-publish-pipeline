@@ -13,8 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set environment variables,
+      uses: sergeysova/jq-action@v2
       env:
         VARS: ${{ toJson(vars) }}
-      run: apt-get install jq && (echo "$VARS" | jq -r 'keys[] as $k | "echo \($k)=\(.[$k])"')
+      with:
+        run: apt-get install jq && (echo "$VARS" | jq -r 'keys[] as $k | "echo \($k)=\(.[$k])"')
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${GITHUB_REF##*/}
