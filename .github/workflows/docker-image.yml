@@ -13,6 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set environment variables
-      run: echo PORT toJson(${{ vars }}) ${{ toJson(vars) }}
+      run: echo PORT ${{ toJson(vars) }}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${GITHUB_REF##*/}
