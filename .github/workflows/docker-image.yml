@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Set github env
-      run: echo "ENVIRONMENT=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      run: echo "ENVIRONMENT=${GITHUB_REF##*/}"
     - uses: actions/checkout@v3
     - name: Set environment variables
       run: echo PORT ${{ vars.PORT }} && echo PORT ${{ env.PORT }}
