@@ -18,4 +18,4 @@ jobs:
         VARS: ${{ toJson(vars) }}
       run: echo "$VARS" | jq -r 'keys[] as $k | "\($k)=\(.[$k])"' > .env && cat .env
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag express:${GITHUB_REF##*/}
+      run: docker build . --file Dockerfile --tag express:${{ github.ref_name }}
