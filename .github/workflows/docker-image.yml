@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set environment variables
-      run: echo 'PORT=8001' > .env
+      run: echo ${{ vars.PORT }} > .env && cat .env
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${GITHUB_REF##*/}
     - name: Branch name
