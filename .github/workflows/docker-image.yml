@@ -6,19 +6,10 @@ on:
   pull_request:
     branches: [ "main", "staging" ]
 jobs:
-  parse-env:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Get environment variable from branch
-      run: echo "::set-output name=env_name::${GITHUB_REF##*/}"
-    outputs:
-      env_name: ${{ steps.branch_check.outputs.env_name }}
-
   build:
     runs-on: ubuntu-latest
-    needs: [parse-env]
     environment: 
-      name: ${{ needs.build.outputs.env_name }}
+      name: main
     steps:
     - uses: actions/checkout@v3
     - name: Set environment variables
