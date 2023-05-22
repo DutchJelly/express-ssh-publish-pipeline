@@ -1,0 +1,29 @@
+{
+  "name": "express-ssh-publish-pipeline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "ts-node-dev src/index.ts",
+    "prod": "ts-node --transpile-only src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DutchJelly/express-ssh-publish-pipeline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DutchJelly/express-ssh-publish-pipeline/issues"
+  },
+  "homepage": "https://github.com/DutchJelly/express-ssh-publish-pipeline#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17"
+  }
+}
