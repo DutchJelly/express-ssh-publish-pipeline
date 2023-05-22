@@ -17,6 +17,6 @@ jobs:
       env:
         VARS: ${{ toJson(vars) }}
       with:
-        run: apt-get install jq && (echo "$VARS" | jq -r 'keys[] as $k | "echo \($k)=\(.[$k])"')
+        run: echo "$VARS" | jq -r 'keys[] as $k | "echo \($k)=\(.[$k])"'
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${GITHUB_REF##*/}
