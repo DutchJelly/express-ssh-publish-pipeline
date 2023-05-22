@@ -33,4 +33,5 @@ jobs:
         HOST_NAME: ${{ secrets.HOST_NAME }}
         ENVIRONMENT: ${{ github.ref_name }}
       run: |
-        scp ./express:${{ github.ref_name }} ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}~/${{ github.ref_name }}
+        echo "hello world" > ./hello_world.txt
+        scp ./hello_world.txt ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}~/${{ github.ref_name }}
