@@ -12,7 +12,9 @@ jobs:
       name: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@v3
-    - name: Set environment variables
-      run: echo PORT ${{ toJson(vars) }}
+    - name: Set environment variables,
+      env:
+        VARS: ${{ toJson(vars) }}
+      run: echo "$VARS"
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${GITHUB_REF##*/}
