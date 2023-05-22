@@ -19,3 +19,18 @@ jobs:
       run: echo "$VARS" | jq -r 'keys[] as $k | "\($k)=\(.[$k])"' > .env && cat .env
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${{ github.ref_name }}
+    - name: Setup ssh key
+      env:
+        PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      run: |
+        mkdir ~/.ssh
+        echo $PUBLIC_KEY > ~/.ssh/id_rsa.pub
+        echo $PRIVATE_KEY > ~/.ssh/id_rsa
+    - name: Deploy docker image to remote
+      env:
+        HOST_USER: ${{ secrets.HOST_USER }}
+        HOST_NAME: ${{ secrets.HOST_NAME }}
+        ENVIRONMENT: ${{ github.ref_name }}
+      run: |
+        scp ./express:${{ github.ref_name }} ${HOST_USER}@${HOST_NAME}:~/${ENVIRONMENT}
