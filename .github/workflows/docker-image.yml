@@ -8,9 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: ${GITHUB_REF##*/}
     steps:
+    - name: Set github env
+      run: echo "ENVIRONMENT=${GITHUB_REF##*/}" >> $GITHUB_ENV
     - uses: actions/checkout@v3
     - name: Set environment variables
       run: echo PORT ${{ vars.PORT }} && echo PORT ${{ env.PORT }}
