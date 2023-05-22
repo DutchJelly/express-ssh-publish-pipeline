@@ -8,11 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: ${GITHUB_REF##*/}
     steps:
     - uses: actions/checkout@v3
     - name: Set environment variables
       run: echo PORT ${{ vars.PORT }} && echo PORT ${{ env.PORT }}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${GITHUB_REF##*/}
-    - name: Branch name
-      run: echo running on branch ${GITHUB_REF##*/}
