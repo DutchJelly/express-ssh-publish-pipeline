@@ -1,0 +1,41 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main", "staging" ]
+  pull_request:
+    branches: [ "main", "staging" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref_name }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: sergeysova/jq-action@v2
+    - name: Set environment variables,
+      env:
+        VARS: ${{ toJson(vars) }}
+      run: echo "$VARS" | jq -r 'keys[] as $k | "\($k)=\(.[$k])"' > .env && cat .env
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag express:${{ github.ref_name }}
+    - name: Save docker image as file
+      run: |
+        docker save express:${{ github.ref_name }} > express:${{ github.ref_name }}.tar
+    - name: Setup ssh key
+      env:
+        PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      run: |
+        mkdir ~/.ssh
+        echo "$PUBLIC_KEY" > ~/.ssh/id_rsa.pub
+        echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 400 ~/.ssh/id_rsa
+    - name: Deploy docker image to remote
+      env:
+        HOST_USER: ${{ secrets.HOST_USER }}
+        HOST_NAME: ${{ secrets.HOST_NAME }}
+        ENVIRONMENT: ${{ github.ref_name }}
+      run: |
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./express:${{ github.ref_name }}.tar ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:~
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }} 'echo ${{ secrets.SUDO_PWD }} | sudo -S docker load --input ./express:${{ github.ref_name }}.tar; echo ${{ secrets.SUDO_PWD }} | sudo -S docker run express:${{ github.ref_name }}'
