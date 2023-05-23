@@ -19,6 +19,10 @@ jobs:
       run: echo "$VARS" | jq -r 'keys[] as $k | "\($k)=\(.[$k])"' > .env && cat .env
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag express:${{ github.ref_name }}
+    - name: Save docker image as file
+      run: |
+        docker save express:${{ github.ref_name }} > express:${{ github.ref_name }}.tar
+        ls
     - name: Setup ssh key
       env:
         PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
