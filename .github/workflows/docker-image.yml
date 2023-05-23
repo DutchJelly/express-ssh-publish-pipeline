@@ -22,7 +22,7 @@ jobs:
     - name: Save docker image as file
       run: |
         docker save express:${{ github.ref_name }} > express:${{ github.ref_name }}.tar
-        ls
+        ls ${{ github.ref_name }}
     - name: Setup ssh key
       env:
         PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
@@ -38,5 +38,5 @@ jobs:
         HOST_NAME: ${{ secrets.HOST_NAME }}
         ENVIRONMENT: ${{ github.ref_name }}
       run: |
-        echo "hello world" > ./hello_world.txt
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./hello_world.txt ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:~
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null express:${{ github.ref_name }}.tar ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:~
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }} 'docker load express:${{ github.ref_name }}.tar; echo ${{ secrets.SUDO_PWD }} | sudo -S docker run express:${{ github.ref_name }} 
