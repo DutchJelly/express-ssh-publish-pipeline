@@ -27,6 +27,7 @@ jobs:
         mkdir ~/.ssh
         echo "$PUBLIC_KEY" > ~/.ssh/id_rsa.pub
         echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+        cat ~/.ssh/id_rsa.pub
     - name: Deploy docker image to remote
       env:
         HOST_USER: ${{ secrets.HOST_USER }}
