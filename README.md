@@ -8,8 +8,8 @@ The goal of this project is to showcase what a simple CI/CD pipeline looks like,
 - Build docker image from Dockerfile with the tagname based on the branch name
 - Save this image to a file with filename based on branch name
 - `scp` the image over to a server with private and public key stored in secrets
-- remove old running container
-- spin up new container with new image, exposing the port specified in the environment of the branch the action runs in
+- `ssh` to remove old running container
+- `ssh` to spin up new container with new image, exposing the port specified in the environment of the branch the action runs in
 
 
 ## Shortcomings
