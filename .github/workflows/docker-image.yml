@@ -22,7 +22,6 @@ jobs:
     - name: Save docker image as file
       run: |
         docker save express:${{ github.ref_name }} > express:${{ github.ref_name }}.tar
-        ls ${{ github.ref_name }}
     - name: Setup ssh key
       env:
         PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
