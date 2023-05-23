@@ -38,4 +38,4 @@ jobs:
         ENVIRONMENT: ${{ github.ref_name }}
       run: |
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./express:${{ github.ref_name }}.tar ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:~
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }} 'echo ${{ secrets.SUDO_PWD }} | sudo -S docker load --input ./express:${{ github.ref_name }}.tar; echo ${{ secrets.SUDO_PWD }} | sudo -S docker run express:${{ github.ref_name }}'
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }} 'echo ${{ secrets.SUDO_PWD }} | sudo -S docker load --input ./express:${{ github.ref_name }}.tar; echo ${{ secrets.SUDO_PWD }} | sudo -S docker run -d express:${{ github.ref_name }}'
