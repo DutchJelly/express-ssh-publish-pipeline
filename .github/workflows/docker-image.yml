@@ -39,4 +39,4 @@ jobs:
         ENVIRONMENT: ${{ github.ref_name }}
       run: |
         echo "hello world" > ./hello_world.txt
-        scp ./hello_world.txt ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:~
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./hello_world.txt ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:~
