@@ -2,6 +2,10 @@
 
 The goal of this project is to showcase what a simple CI/CD pipeline looks like, and to find shortcomings that have been solved by orchestrators like Kubernetes in combination with image version management like the docker registry.
 
+## Functionality
+
+Containarize and deploy a simple express app automatically on push to main or staging branches. Deploy with different environments based on the branch name.
+
 ## How it works
 
 - Load environment variables to .env file based on branch name (main or staging)
@@ -10,6 +14,7 @@ The goal of this project is to showcase what a simple CI/CD pipeline looks like,
 - `scp` the image over to a server with private and public key stored in secrets
 - `ssh` to remove old running container
 - `ssh` to spin up new container with new image, exposing the port specified in the environment of the branch the action runs in
+
 
 
 ## Shortcomings
