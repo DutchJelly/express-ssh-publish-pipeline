@@ -38,7 +38,7 @@ jobs:
       run: |
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./express:${{ github.ref_name }}.tar ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:~/containers
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }} \ 
-          "docker load --input ./containers/express:${{ github.ref_name }}.tar; \
+          "docker load --input ~/containers/express:${{ github.ref_name }}.tar; \
           docker kill express-${{ github.ref_name }} 2> /dev/null; \
           docker rm express-${{ github.ref_name }} 2> /dev/null; \ 
           docker run -d --name express-${{ github.ref_name }} --expose ${{ vars.PORT }} express:${{ github.ref_name }};"
